@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>B'gosh Golf League — Prototype 4 regression checks</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { padding: 12px; }
+    .pass { color: #14501c; background: #eaf7e6; }
+    .fail { color: #b3261e; background: #fdebec; font-weight: 700; }
+    td { font-size: .85rem; }
+    #summary { font-weight: 800; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>Prototype 4 regression checks (§18 verification)</h1>
+  <div id="summary">running…</div>
+  <table class="gridtbl" id="results"><tr><th>#</th><th>Check</th><th>Result</th><th>Detail</th></tr></table>
+  <script src="data.js"></script>
+  <script src="handicap.js"></script>
+  <script src="logic.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // View sources for static checks (adjust() etc. live in these files).
+    // Synchronous XHR is fine in the prototype test page.
+    window.CHECK_SRC = {};
+    ["views-a.js", "views-b.js", "views-c.js", "views-d.js"].forEach(f => {
+      try {
+        const x = new XMLHttpRequest();
+        x.open("GET", f, false);
+        x.send();
+        if (x.status === 200 || x.status === 0) CHECK_SRC[f.replace(".js", "").replace("-", "_")] = x.responseText;
+      } catch (e) {}
+    });
+  </script>
+  <script src="checks.js"></script>
+</body>
+</html>
